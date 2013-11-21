@@ -25,8 +25,8 @@ public class Operation implements Serializable {
 																// simple
 																// equations
 		} else if (r == 1) { // printing job
-			this.JobDescription = "please print out the job id = " + this.JobID
-					+ " operation id = " + this.OPID + " operation index = "
+			this.JobDescription = "Please print out the JobID: " + this.JobID
+					+ "; OperationID: " + this.OPID + "; Operation Index: "
 					+ this.index;
 		} else {
 		}

@@ -87,26 +87,9 @@ public class ThreadedPrintServerAdvNet implements Runnable {
 			Job job = (Job) objIn.readObject();
 			this.Jobque.add(job);
 
-			System.out.println("the job ID is " + job.getJobID()
-					+ " the number of ops is " + job.getOPNumber());
+			System.out.println("\n\nThe JobID is: " + job.getJobID()
+					+ " and the number of operations is: " + job.getOPNumber() + "\n");
 
-			/*
-			 * if (job == null) { System.out.println("a null job got"); }
-			 * 
-			 * else { int opn = job.getOPNumber(); Vector opv = job.getOPs();
-			 * 
-			 * for (int i = 0; i < opn; i++) { Operation op = (Operation)
-			 * opv.elementAt(i);
-			 * 
-			 * if (op.getOPID() == 1) {
-			 * System.out.println("the operation type is 1"); }
-			 * 
-			 * else if (op.getOPID() == 2) {
-			 * System.out.println("the operation type is 2"); }
-			 * 
-			 * else if (op.getOPID() == 0) {
-			 * System.out.println("the operation type is 0"); } } }
-			 */
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -133,6 +116,7 @@ class Connection extends Thread {
 class PrintThread extends Thread {
 	private Vector<Job> jobQ;
 	private boolean stop = false;
+	private int numberOfJobRemovedByPrint = 0;
 
 	public PrintThread(Vector<Job> v) {
 		super("The Printing Thread");
@@ -143,46 +127,43 @@ class PrintThread extends Thread {
 		while (!stop) {
 			while ((!stop) && (!jobQ.isEmpty())) {
 				int i = 0;
-
 				for (i = 0; i < jobQ.size(); i++) {
 
-					if (stop){
+					if (stop) {
 						break;
 					}
-
 					Job job = jobQ.elementAt(i);
-					//boolean JobTurn = true;
+					
 					int opn = job.getOPNumber();
 					Vector opv = job.getOPs();
-					boolean removable = true;
+					boolean removable = false; // can be removed it all operations are done
 					boolean doneOne = false;
 
 					for (int j = 0; j < opn; j++) {
-						
+
 						Operation op = (Operation) opv.elementAt(j);
 
 						if ((op.getOPID() == 1) && (!op.isDone())) {
-							
-							if (doneOne){
-							System.out.println("Job ID is " + job.getJobID()
-									+ " and the OP type is 1");
-							op.print(op.getJobDescription());
-							op.setIsDone(true);
-							doneOne= false;
+
+							if (!doneOne) {
+								System.out.println("The operation type is: 1 and the print thread will run.");
+								op.print(op.getJobDescription());
+								op.setIsDone(true);
 							}
-						} 
 							
-							else if (op.getOPID() == 0) {
-							System.out
-									.println("The operation type is 0 and the print thread is to be terminated.");
+							doneOne = true;
+						} // end of operation 1
+
+						else if (op.getOPID() == 0){
+							System.out.println("The operation type is: 0 and the print thread is to be terminated.");
 							this.stop = true;
 						} else {
 							if (!op.isDone())
-								removable = false;
+								removable = true;
 						}
 						if (removable) {
 							jobQ.remove(job);
-							i--;
+							//i--;
 						}
 					}
 				} // end of the if, if job queue is empty
@@ -194,4 +175,3 @@ class PrintThread extends Thread {
 		} // end of else, if no job, thread block itself to yield CPU
 	} // end of while
 } // end of run
-

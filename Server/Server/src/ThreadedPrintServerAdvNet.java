@@ -19,12 +19,13 @@ public class ThreadedPrintServerAdvNet implements Runnable {
 		this.MaxConnections = b;
 		this.Jobque = new Vector<Job>();
 
+		
+		// start computing thread here
+		ComputeThread ct = new ComputeThread(this.Jobque);
+		ct.start();
 		// start your printer here
 		PrintThread pt = new PrintThread(this.Jobque);
 		pt.start();
-		// start computing thread here
-		//ComputeThread ct = new ComputeThread(this.Jobque);
-		//ct.start();
 	}
 
 	public int getPort() {
@@ -148,11 +149,13 @@ class PrintThread extends Thread {
 						if ((op.getOPID() == 1) && (!op.isDone())) {
 
 							if (!doneOne) {
-								System.out.println("The operation type is: 1 and the print thread will run.");
+								System.out.println(job.getJobID() + " The operation type is: 1 and the print thread will run.");
 								op.print(op.getJobDescription());
 								op.setIsDone(true);
 								doneOne = true;
-							}
+							}else{
+								removable = false;
+								}
 						} // end of operation 1
 
 						else if (op.getOPID() == 0){
@@ -164,7 +167,7 @@ class PrintThread extends Thread {
 						}
 						if (removable) {
 							jobQ.remove(job);
-							//i--;
+							i--;
 						}
 					}
 				} // end of the if, if job queue is empty
@@ -210,11 +213,13 @@ class ComputeThread extends Thread {
 						if ((op.getOPID() == 2) && (!op.isDone())) {
 
 							if (!doneOne) {
-								System.out.println("The operation type is: 2 and the compute thread will run.");
+								System.out.println(job.getJobID() + " The operation type is: 2 and the compute thread will run.");
 								op.print(op.getJobDescription());
 							
 								op.setIsDone(true);
 								doneOne = true;
+							}else{
+								removable = false;
 							}
 						} // end of operation 1
 
@@ -227,7 +232,7 @@ class ComputeThread extends Thread {
 						}
 						if (removable) {
 							jobQ.remove(job);
-							//i--;
+							i--;
 						}
 					}
 				} // end of the if, if job queue is empty

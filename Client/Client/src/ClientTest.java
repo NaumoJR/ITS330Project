@@ -4,7 +4,7 @@ public class ClientTest {
 		String host = "localhost";
 		int port = 8088;
 
-		for (int i = 0; i < 5; i++) { // number of JobID's per thread
+		for (int i = 1; i < 7; i++) { // number of JobID's per thread
 			ThreadedPrintClientAdvNet pc = new ThreadedPrintClientAdvNet(i, host, port);
 			Thread t = new Thread(pc);
 			t.start();
@@ -13,6 +13,7 @@ public class ClientTest {
 			Thread.sleep(2000);
 
 		} catch (Exception e) {
+			
 		}
 			/*ThreadedPrintClientAdvNet pc0 = new ThreadedPrintClientAdvNet(-1, host,
 				port);

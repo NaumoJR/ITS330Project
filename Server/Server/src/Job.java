@@ -22,7 +22,7 @@ public class Job implements Serializable {
 		// " and the job number is "+b);
 		if (JobID >= 0) {
 			for (int i = 0; i < b; i++) { // job index
-				int r = randGen.nextInt(2) + 1; // opnumber, you only have 1 and
+				int r = randGen.nextInt(2)+1; // opnumber, you only have 1 and
 												// 2
 				Operation op = new Operation(this.JobID, r, i + 1);
 				this.OPs.add(op);

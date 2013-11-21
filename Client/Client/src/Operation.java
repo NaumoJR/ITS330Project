@@ -2,7 +2,7 @@ import java.io.Serializable;
 
 public class Operation implements Serializable {
 
-	private int JobID, OPID, index;
+	private int JobID, OPID, index, total;
 	private String JobDescription;
 	private boolean isDone = false;
 
@@ -18,12 +18,10 @@ public class Operation implements Serializable {
 
 	public void setJobDescription(int r) {
 		if (r == 2) { // maybe computing
-			this.JobDescription = "please compute the  a= " + this.JobID
-					+ " + " + this.OPID + " + " + this.index; // you can make it
-																// simple to
-																// compute some
-																// simple
-																// equations
+			this.JobDescription = "Please compute the following: A = this JobID: " + this.JobID
+					+ " + this OPID: " + this.OPID + " + this Index: " + this.index;
+			this.total = this.JobID + this.OPID + this.index;
+			
 		} else if (r == 1) { // printing job
 			this.JobDescription = "Please print out the JobID: " + this.JobID
 					+ "; OperationID: " + this.OPID + "; Operation Index: "

@@ -20,6 +20,7 @@ public class Job implements Serializable {
 		this.randGen = new Random();
 		// System.out.println("the job id is " + a +
 		// " and the job number is "+b);
+		
 		if (JobID <= 5) {
 			for (int i = 0; i < b; i++) { // job index
 				int r = randGen.nextInt(2)+1; // opnumber, you only have 1 and
@@ -31,7 +32,6 @@ public class Job implements Serializable {
 			Operation op = new Operation(this.JobID, 0, 1);
 			this.OPs.add(op);
 		}
-
 		try {
 			Thread.sleep(2000);
 

@@ -5,7 +5,7 @@ import java.util.*;
 public class ThreadedPrintServerAdvNet implements Runnable {
 
 	private int port, MaxConnections;
-	private Vector<Job> Jobque;
+	private Vector Jobque;
 
 	// private ObjectOutputStream objOut;
 	// private ObjectInputStream objIn;
@@ -17,9 +17,8 @@ public class ThreadedPrintServerAdvNet implements Runnable {
 	public ThreadedPrintServerAdvNet(int a, int b) {
 		this.port = a;
 		this.MaxConnections = b;
-		this.Jobque = new Vector<Job>();
+		this.Jobque = new Vector();
 
-		
 		// start computing thread here
 		ComputeThread ct = new ComputeThread(this.Jobque);
 		ct.start();
@@ -91,7 +90,8 @@ public class ThreadedPrintServerAdvNet implements Runnable {
 			this.Jobque.add(job);
 
 			System.out.println("\n\nThe JobID is: " + job.getJobID()
-					+ " and the number of operations is: " + job.getOPNumber() + "\n");
+					+ " and the number of operations is: " + job.getOPNumber()
+					+ "\n");
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -117,11 +117,10 @@ class Connection extends Thread {
 }
 
 class PrintThread extends Thread {
-	private Vector<Job> jobQ;
+	private Vector jobQ;
 	private boolean stop = false;
-	private int numberOfJobRemovedByPrint = 0;
 
-	public PrintThread(Vector<Job> v) {
+	public PrintThread(Vector v) {
 		super("The Printing Thread");
 		this.jobQ = v;
 	}
@@ -135,42 +134,52 @@ class PrintThread extends Thread {
 					if (stop) {
 						break;
 					}
-					Job job = jobQ.elementAt(i);
-					
-					int opn = job.getOPNumber();
-					Vector opv = job.getOPs();
-					boolean removable = true; // can be removed it all operations are done
-					boolean doneOne = false;
-
-					for (int j = 0; j < opn; j++) {
-
-						Operation op = (Operation) opv.elementAt(j);
-
-						if ((op.getOPID() == 1) && (!op.isDone())) {
-
-							if (!doneOne) {
-								System.out.println(job.getJobID() + " The operation type is: 1 and the print thread will run.");
-								op.print(op.getJobDescription());
-								op.setIsDone(true);
-								doneOne = true;
-							}else{
-								removable = false;
-								}
-						} // end of operation 1
-
-						else if (op.getOPID() == 0){
-							System.out.println("The operation type is: 0 and the print thread is to be terminated.");
-							this.stop = true;
-						} else {
-							if (!op.isDone())
-								removable = false;
-						}
-						if (removable) {
-							jobQ.remove(job);
-							i--;
-						}
+					Job job = null;
+					try {
+						job = (Job) jobQ.elementAt(i);
+					} catch (Exception e) {
 					}
-				} // end of the if, if job queue is empty
+					if (job != null) {
+
+						int opn = job.getOPNumber();
+						Vector opv = job.getOPs();
+						boolean removable = true; // can be removed it all
+													// operations are done
+						boolean doneOne = false;
+
+						for (int j = 0; j < opn; j++) {
+
+							Operation op = (Operation) opv.elementAt(j);
+
+							if ((op.getOPID() == 1) && (!op.isDone())) {
+
+								if (!doneOne) {
+									System.out
+											.println(job.getJobID()
+													+ " The operation type is: 1 and the print thread will run.");
+									op.print(op.getJobDescription());
+									op.setIsDone(true);
+									doneOne = true;
+								} else {
+									removable = false;
+								}
+							} // end of operation 1
+
+							else if (op.getOPID() == 0) {
+								System.out
+										.println("The operation type is: 0 and the print thread is to be terminated.");
+								this.stop = true;
+							} else {
+								if (!op.isDone())
+									removable = false;
+							}
+							if (removable) {
+								jobQ.remove(job);
+								i--;
+							}
+						}
+					} // end of the if, if job queue is empty
+				}
 				try {
 					this.sleep(1000);
 				} catch (Exception e) {
@@ -183,7 +192,6 @@ class PrintThread extends Thread {
 class ComputeThread extends Thread {
 	private Vector<Job> jobQ;
 	private boolean stop = false;
-	private int numberOfJobRemovedByPrint = 0;
 
 	public ComputeThread(Vector<Job> v) {
 		super("The Computing Thread");
@@ -199,40 +207,53 @@ class ComputeThread extends Thread {
 					if (stop) {
 						break;
 					}
-					Job job = jobQ.elementAt(i);
-					
-					int opn = job.getOPNumber();
-					Vector opv = job.getOPs();
-					boolean removable = true; // can be removed it all operations are done
-					boolean doneOne = false;
+					Job job = null;
 
-					for (int j = 0; j < opn; j++) {
+					try {
+						job = (Job) jobQ.elementAt(i);
+					} catch (Exception e) {
 
-						Operation op = (Operation) opv.elementAt(j);
+					}
 
-						if ((op.getOPID() == 2) && (!op.isDone())) {
+					if (job != null) {
 
-							if (!doneOne) {
-								System.out.println(job.getJobID() + " The operation type is: 2 and the compute thread will run.");
-								op.print(op.getJobDescription());
-							
-								op.setIsDone(true);
-								doneOne = true;
-							}else{
-								removable = false;
+						int opn = job.getOPNumber();
+						Vector opv = job.getOPs();
+						boolean removable = true; // can be removed it all
+													// operations are done
+						boolean doneOne = false;
+
+						for (int j = 0; j < opn; j++) {
+
+							Operation op = (Operation) opv.elementAt(j);
+
+							if ((op.getOPID() == 2) && (!op.isDone())) {
+
+								if (!doneOne) {
+									System.out
+											.println(job.getJobID()
+													+ " The operation type is: 2 and the compute thread will run.");
+									op.print(op.getJobDescription());
+
+									op.setIsDone(true);
+									doneOne = true;
+								} else {
+									removable = false;
+								}
+							} // end of operation 1
+
+							else if (op.getOPID() == 0) {
+								System.out
+										.println("The operation type is: 0 and the compute thread is to be terminated.");
+								this.stop = true;
+							} else {
+								if (!op.isDone())
+									removable = false;
 							}
-						} // end of operation 1
-
-						else if (op.getOPID() == 0){
-							System.out.println("The operation type is: 0 and the compute thread is to be terminated.");
-							this.stop = true;
-						} else {
-							if (!op.isDone())
-								removable = false;
-						}
-						if (removable) {
-							jobQ.remove(job);
-							i--;
+							if (removable) {
+								jobQ.remove(job);
+								i--;
+							}
 						}
 					}
 				} // end of the if, if job queue is empty

@@ -20,12 +20,11 @@ public class Operation implements Serializable {
 		if (r == 2) { // maybe computing
 			this.JobDescription = "Please compute the following: A = this JobID: " + this.JobID
 					+ " + this OPID: " + this.OPID + " + this Index: " + this.index;
-			this.total = this.JobID + this.OPID + this.index;
 			
 		} else if (r == 1) { // printing job
 			this.JobDescription = "Please print out the JobID: " + this.JobID
 					+ "; OperationID: " + this.OPID + "; Operation Index: "
-					+ this.index + "\n";
+					+ this.index;
 		} else {
 		}
 	}

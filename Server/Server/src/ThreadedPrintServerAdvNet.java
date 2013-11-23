@@ -82,7 +82,7 @@ public class ThreadedPrintServerAdvNet implements Runnable {
 			Job job = (Job) objIn.readObject();
 			this.Jobque.add(job);
 
-			System.out.println("The JobID is: " + job.getJobID());
+			System.out.println("The JobID is: " + job.getJobID()+ " and the number of ops is: " + job.getOPNumber());
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -227,8 +227,8 @@ class ComputeThread extends Thread {
 									int num1 = job.getJobID();
 									int num2 = job.getOPNumber();
 								
-									op.getJobDescription();
-									op.computation(num1, num2);
+									op.print(op.getJobDescription());
+									//op.computation(num1, num2);
 
 									op.setIsDone(true);
 									doneOne = true;

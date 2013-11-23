@@ -20,8 +20,9 @@ public class Job implements Serializable {
 		this.randGen = new Random();
 
 		if (JobID < 0) {
-			Operation op = new Operation(this.JobID, 0, 0);
+			Operation op = new Operation(this.JobID, 0, 1);
 			this.OPs.add(op);
+			this.OPNumber = 1;
 
 		} else {
 			for (int i = 0; i < b; i++) {

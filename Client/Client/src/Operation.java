@@ -20,7 +20,7 @@ public class Operation implements Serializable {
 	public void setJobDescription(int r) {
 		if (r == 2) { // maybe computing
 			this.JobDescription = "Please compute the following: A = this JobID: " + this.JobID
-					+ " * this OPID: " + this.OPID;
+					+ " * this OPID: " + this.OPID + "\n";
 														
 		} else if (r == 1) { // printing job
 			this.JobDescription = "JobID: " + this.JobID

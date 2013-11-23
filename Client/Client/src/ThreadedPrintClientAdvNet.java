@@ -8,8 +8,8 @@ public class ThreadedPrintClientAdvNet extends Client implements Runnable {
 	private String host;
 	private int port;
 	private Job job;
-	private ObjectOutputStream objOut;
-	private ObjectInputStream objIn;
+	//private ObjectOutputStream objOut;
+	//private ObjectInputStream objIn;
 	private Random ran;
 
 	public ThreadedPrintClientAdvNet(int i, String host, int port) {
@@ -20,7 +20,7 @@ public class ThreadedPrintClientAdvNet extends Client implements Runnable {
 		
 		// create job for this thread
 		this.ran = new Random();
-		this.job = new Job(this.ID, this.ran.nextInt(3) + 1);
+		this.job = new Job(this.ID, ran.nextInt(3) + 1);
 	}
 
 	public void run() {
@@ -37,18 +37,17 @@ public class ThreadedPrintClientAdvNet extends Client implements Runnable {
 	}
 
 	private void handleConnectionObj(Socket client) throws Exception {
-		this.objOut = new ObjectOutputStream(new BufferedOutputStream(
+		ObjectOutputStream objOut = new ObjectOutputStream(new BufferedOutputStream(
 				client.getOutputStream(), 2048));
 		
-		// this.objOut.flush();
-		this.objIn = new ObjectInputStream(new BufferedInputStream(
+		ObjectInputStream objIn = new ObjectInputStream(new BufferedInputStream(
 				client.getInputStream()));
 
 		objOut.writeObject(this.job);
 		objOut.flush();
 		objOut.close();
 		objIn.close();
-		// try {Thread.sleep(3000);}catch (Exception e) {}
+		try {Thread.sleep(3000);}catch (Exception e) {}
 		client.close();
 	}
 }

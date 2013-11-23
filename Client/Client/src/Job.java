@@ -4,40 +4,32 @@ import java.io.Serializable;
 
 public class Job implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private int JobID, OPNumber;
-	private Vector OPs;
+	private Vector<Operation> OPs;
 	private Random randGen;
 	private boolean isDone = false;
-
-	public Job() {
-	}
 
 	public Job(int a, int b) {
 		this.JobID = a;
 		this.OPNumber = b;
-		this.OPs = new Vector();
-
+		this.OPs = new Vector<Operation>();
 		this.randGen = new Random();
-		// System.out.println("the job id is " + a +
-		// " and the job number is "+b);
 
-		if (JobID <= 5) {
-			for (int i = 0; i < b; i++) { // job index
-				int r = randGen.nextInt(2)+1; // opnumber, you only have 1 and
-												// 2
+		if (JobID < 0) {
+			Operation op = new Operation(this.JobID, 0, 0);
+			this.OPs.add(op);
+
+		} else {
+			for (int i = 0; i < b; i++) {
+				int r = randGen.nextInt(2) + 1;
 				Operation op = new Operation(this.JobID, r, i + 1);
 				this.OPs.add(op);
 			}
-		} else {
-			Operation op = new Operation(this.JobID, 0, 1);
-			this.OPs.add(op);
 		}
-		try {
-			Thread.sleep(2000);
-
-		} catch (Exception e) {
-		}
-
 	}
 
 	public synchronized int getJobID() {
@@ -56,11 +48,11 @@ public class Job implements Serializable {
 		this.OPNumber = d;
 	}
 
-	public Vector getOPs() {
+	public Vector<Operation> getOPs() {
 		return this.OPs;
 	}
 
-	public void setOPs(Vector d) {
+	public void setOPs(Vector<Operation> d) {
 		this.OPs = d;
 	}
 

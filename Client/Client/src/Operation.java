@@ -2,12 +2,13 @@ import java.io.Serializable;
 
 public class Operation implements Serializable {
 
-	private int JobID, OPID, index, total;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private int JobID, OPID, index;
 	private String JobDescription;
 	private boolean isDone = false;
-
-	public Operation() {
-	}
 
 	public Operation(int a, int b, int c) {
 		this.JobID = a;
@@ -19,12 +20,12 @@ public class Operation implements Serializable {
 	public void setJobDescription(int r) {
 		if (r == 2) { // maybe computing
 			this.JobDescription = "Please compute the following: A = this JobID: " + this.JobID
-					+ " + this OPID: " + this.OPID + " + this Index: " + this.index;
-			
+					+ " * this OPID: " + this.OPID;
+														
 		} else if (r == 1) { // printing job
-			this.JobDescription = "Please print out the JobID: " + this.JobID
+			this.JobDescription = "JobID: " + this.JobID
 					+ "; OperationID: " + this.OPID + "; Operation Index: "
-					+ this.index;
+					+ this.index +"\n";
 		} else {
 		}
 	}
@@ -64,5 +65,13 @@ public class Operation implements Serializable {
 	public void print(String msg) {
 		String threadName = Thread.currentThread().getName();
 		System.out.println(threadName + ": " + msg);
+	}
+	
+	public void computation(int num1, int num2){
+		int A;
+		
+		A = num1 * num2;
+		
+		System.out.println(num1 + " x " + num2 + " = " + A + "\n");
 	}
 }

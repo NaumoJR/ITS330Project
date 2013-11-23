@@ -5,19 +5,12 @@ import java.util.*;
 public class ThreadedPrintServerAdvNet implements Runnable {
 
 	private int port, MaxConnections;
-	private Vector Jobque;
-
-	// private ObjectOutputStream objOut;
-	// private ObjectInputStream objIn;
-
-	public ThreadedPrintServerAdvNet() {
-
-	}
+	private Vector<Job> Jobque;
 
 	public ThreadedPrintServerAdvNet(int a, int b) {
 		this.port = a;
 		this.MaxConnections = b;
-		this.Jobque = new Vector();
+		this.Jobque = new Vector<Job>();
 
 		// start computing thread here
 		ComputeThread ct = new ComputeThread(this.Jobque);
@@ -89,9 +82,7 @@ public class ThreadedPrintServerAdvNet implements Runnable {
 			Job job = (Job) objIn.readObject();
 			this.Jobque.add(job);
 
-			System.out.println("\n\nThe JobID is: " + job.getJobID()
-					+ " and the number of operations is: " + job.getOPNumber()
-					+ "\n");
+			//System.out.println("The JobID is: " + job.getJobID());
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -117,10 +108,10 @@ class Connection extends Thread {
 }
 
 class PrintThread extends Thread {
-	private Vector jobQ;
+	private Vector<Job> jobQ;
 	private boolean stop = false;
 
-	public PrintThread(Vector v) {
+	public PrintThread(Vector<Job> v) {
 		super("The Printing Thread");
 		this.jobQ = v;
 	}
@@ -130,7 +121,7 @@ class PrintThread extends Thread {
 			while ((!stop) && (!jobQ.isEmpty())) {
 				int i = 0;
 				for (i = 0; i < jobQ.size(); i++) {
-
+					
 					if (stop) {
 						break;
 					}
@@ -142,7 +133,7 @@ class PrintThread extends Thread {
 					if (job != null) {
 
 						int opn = job.getOPNumber();
-						Vector opv = job.getOPs();
+						Vector<?> opv = job.getOPs();
 						boolean removable = true; // can be removed it all
 													// operations are done
 						boolean doneOne = false;
@@ -155,8 +146,8 @@ class PrintThread extends Thread {
 
 								if (!doneOne) {
 									System.out
-											.println(job.getJobID()
-													+ " The operation type is: 1 and the print thread will run.");
+											.println("The JobID is: " + job.getJobID()
+													+ " and the operation type is: 1 so the print thread will run.\n");
 									op.print(op.getJobDescription());
 									op.setIsDone(true);
 									doneOne = true;
@@ -167,7 +158,7 @@ class PrintThread extends Thread {
 
 							else if (op.getOPID() == 0) {
 								System.out
-										.println("The operation type is: 0 and the print thread is to be terminated.");
+										.println("The operation type is: 0 and the print thread is to be terminated.\n");
 								this.stop = true;
 							} else {
 								if (!op.isDone())
@@ -181,7 +172,7 @@ class PrintThread extends Thread {
 					} // end of the if, if job queue is empty
 				}
 				try {
-					this.sleep(1000);
+					Thread.sleep(1000);
 				} catch (Exception e) {
 				}
 			}
@@ -218,7 +209,7 @@ class ComputeThread extends Thread {
 					if (job != null) {
 
 						int opn = job.getOPNumber();
-						Vector opv = job.getOPs();
+						Vector<?> opv = job.getOPs();
 						boolean removable = true; // can be removed it all
 													// operations are done
 						boolean doneOne = false;
@@ -231,9 +222,13 @@ class ComputeThread extends Thread {
 
 								if (!doneOne) {
 									System.out
-											.println(job.getJobID()
-													+ " The operation type is: 2 and the compute thread will run.");
-									op.print(op.getJobDescription());
+											.println("The JobID is: " + job.getJobID()
+													+ " The operation type is: 2 so the compute thread will run.\n");
+									int num1 = job.getJobID();
+									int num2 = job.getOPNumber();
+								
+									op.getJobDescription();
+									op.computation(num1, num2);
 
 									op.setIsDone(true);
 									doneOne = true;
@@ -244,7 +239,7 @@ class ComputeThread extends Thread {
 
 							else if (op.getOPID() == 0) {
 								System.out
-										.println("The operation type is: 0 and the compute thread is to be terminated.");
+										.println("The operation type is: 0 and the compute thread is to be terminated.\n");
 								this.stop = true;
 							} else {
 								if (!op.isDone())
@@ -258,7 +253,7 @@ class ComputeThread extends Thread {
 					}
 				} // end of the if, if job queue is empty
 				try {
-					this.sleep(1000);
+					Thread.sleep(1000);
 				} catch (Exception e) {
 				}
 			}

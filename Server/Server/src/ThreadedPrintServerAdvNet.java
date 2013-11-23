@@ -82,7 +82,7 @@ public class ThreadedPrintServerAdvNet implements Runnable {
 			Job job = (Job) objIn.readObject();
 			this.Jobque.add(job);
 
-			//System.out.println("The JobID is: " + job.getJobID());
+			System.out.println("The JobID is: " + job.getJobID());
 
 		} catch (Exception e) {
 			e.printStackTrace();

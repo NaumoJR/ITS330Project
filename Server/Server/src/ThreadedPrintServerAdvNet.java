@@ -133,7 +133,7 @@ class PrintThread extends Thread {
 					if (job != null) {
 
 						int opn = job.getOPNumber();
-						Vector<?> opv = job.getOPs();
+						Vector<Operation> opv = job.getOPs();
 						boolean removable = true; // can be removed it all
 													// operations are done
 						boolean doneOne = false;
@@ -146,8 +146,8 @@ class PrintThread extends Thread {
 
 								if (!doneOne) {
 									System.out
-											.println("The JobID is: " + job.getJobID()
-													+ " and the operation type is: 1 so the print thread will run.\n");
+											.println("JobID: " + job.getJobID()
+													+ " and the operation type is: 1 so the print thread will run.");
 									op.print(op.getJobDescription());
 									op.setIsDone(true);
 									doneOne = true;
@@ -158,7 +158,7 @@ class PrintThread extends Thread {
 
 							else if (op.getOPID() == 0) {
 								System.out
-										.println("The operation type is: 0 and the print thread is to be terminated.\n");
+										.println("The operation type is: 0 and the print thread is to be terminated.");
 								this.stop = true;
 							} else {
 								if (!op.isDone())
@@ -209,7 +209,7 @@ class ComputeThread extends Thread {
 					if (job != null) {
 
 						int opn = job.getOPNumber();
-						Vector<?> opv = job.getOPs();
+						Vector<Operation> opv = job.getOPs();
 						boolean removable = true; // can be removed it all
 													// operations are done
 						boolean doneOne = false;
@@ -222,8 +222,8 @@ class ComputeThread extends Thread {
 
 								if (!doneOne) {
 									System.out
-											.println("The JobID is: " + job.getJobID()
-													+ " The operation type is: 2 so the compute thread will run.\n");
+											.println("JobID: " + job.getJobID()
+													+ " The operation type is: 2 so the compute thread will run.");
 									int num1 = job.getJobID();
 									int num2 = job.getOPNumber();
 								
@@ -239,7 +239,7 @@ class ComputeThread extends Thread {
 
 							else if (op.getOPID() == 0) {
 								System.out
-										.println("The operation type is: 0 and the compute thread is to be terminated.\n");
+										.println("The operation type is: 0 and the compute thread is to be terminated.");
 								this.stop = true;
 							} else {
 								if (!op.isDone())

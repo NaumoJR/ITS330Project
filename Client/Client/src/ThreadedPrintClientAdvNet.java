@@ -47,7 +47,7 @@ public class ThreadedPrintClientAdvNet extends Client implements Runnable {
 		objOut.flush();
 		objOut.close();
 		objIn.close();
-		try {Thread.sleep(3000);}catch (Exception e) {}
+		//try {Thread.sleep(3000);}catch (Exception e) {}
 		client.close();
 	}
 }

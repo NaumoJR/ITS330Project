@@ -20,12 +20,12 @@ public class Operation implements Serializable {
 	public void setJobDescription(int r) {
 		if (r == 2) { // maybe computing
 			this.JobDescription = "Please compute the following: A = this JobID: " + this.JobID
-					+ " * this OPID: " + this.OPID + "\n";
+					+ " * this OPID: " + this.OPID;
 														
 		} else if (r == 1) { // printing job
 			this.JobDescription = "JobID: " + this.JobID
 					+ "; OperationID: " + this.OPID + "; Operation Index: "
-					+ this.index +"\n";
+					+ this.index;
 		} else {
 		}
 	}
@@ -72,6 +72,6 @@ public class Operation implements Serializable {
 		
 		A = num1 * num2;
 		
-		System.out.println(num1 + " x " + num2 + " = " + A + "\n");
+		System.out.println(num1 + " x " + num2 + " = " + A);
 	}
 }

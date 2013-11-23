@@ -15,7 +15,7 @@ public class ClientTest {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-			/*ThreadedPrintClientAdvNet pc0 = new ThreadedPrintClientAdvNet(-1, host,
+			ThreadedPrintClientAdvNet pc0 = new ThreadedPrintClientAdvNet(-1, host,
 				port);
 			Thread t1 = new Thread(pc0);
 			t1.start();
@@ -30,7 +30,7 @@ public class ClientTest {
 			ThreadedPrintClientAdvNet pc1 = new ThreadedPrintClientAdvNet(-2, host,
 				port);
 			Thread t2 = new Thread(pc1);
-			t2.start(); */
+			t2.start();
 	} 
 
 	public static void main(String args[]) {

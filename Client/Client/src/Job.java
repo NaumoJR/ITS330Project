@@ -19,7 +19,7 @@ public class Job implements Serializable {
 		this.OPs = new Vector<Operation>();
 		this.randGen = new Random();
 
-		if (JobID < 0) {
+		/* if (JobID < 0) {
 			Operation op = new Operation(this.JobID, 0, 1);
 			this.OPs.add(op);
 			this.OPNumber = 1;
@@ -30,7 +30,22 @@ public class Job implements Serializable {
 				Operation op = new Operation(this.JobID, r, i + 1);
 				this.OPs.add(op);
 			}
+		} */
+		
+		if (JobID >= 0){
+			for(int i = 0; i < b; i++){
+				int r = randGen.nextInt(2) + 1;
+				Operation op = new Operation(this.JobID, r, i + 1);
+				this.OPs.add(op);
+			}
+		}else{
+			Operation op = new Operation(this.JobID, 0, 1);
+			this.OPs.add(op);
+			this.OPNumber = 1;
 		}
+		try{
+			Thread.sleep(2000);
+		}catch (Exception e){}
 	}
 
 	public synchronized int getJobID() {

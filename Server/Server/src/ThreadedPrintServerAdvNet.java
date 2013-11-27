@@ -82,7 +82,8 @@ public class ThreadedPrintServerAdvNet implements Runnable {
 			Job job = (Job) objIn.readObject();
 			this.Jobque.add(job);
 
-			System.out.println("The JobID is: " + job.getJobID()+ " and the number of ops is: " + job.getOPNumber());
+			System.out.println("\nThe JobID is: " + job.getJobID()
+					+ " and the number of ops is: " + job.getOPNumber());
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -121,15 +122,9 @@ class PrintThread extends Thread {
 			while ((!stop) && (!jobQ.isEmpty())) {
 				int i = 0;
 				for (i = 0; i < jobQ.size(); i++) {
-					
-					if (stop) {
-						break;
-					}
+					if (stop) 		break;
 					Job job = null;
-					try {
-						job = (Job) jobQ.elementAt(i);
-					} catch (Exception e) {
-					}
+					try {job = (Job) jobQ.elementAt(i); } catch (Exception e) {	}
 					if (job != null) {
 
 						int opn = job.getOPNumber();
@@ -145,9 +140,7 @@ class PrintThread extends Thread {
 							if ((op.getOPID() == 1) && (!op.isDone())) {
 
 								if (!doneOne) {
-									System.out
-											.println("JobID: " + job.getJobID()
-													+ " and the operation type is: 1 so the print thread will run.");
+									System.out.println("The operation type is: 1 so the printing thread will run.");
 									op.print(op.getJobDescription());
 									op.setIsDone(true);
 									doneOne = true;
@@ -157,28 +150,30 @@ class PrintThread extends Thread {
 							} // end of operation 1
 
 							else if (op.getOPID() == 0) {
-								System.out
-										.println("The operation type is: 0 and the print thread is to be terminated.");
+								System.out.println("The operation type is: 0 and the print thread is to be terminated.");
 								this.stop = true;
 							} else {
 								if (!op.isDone())
 									removable = false;
 							}
+						}// end of the inner for loop for each operation
 							if (removable) {
 								jobQ.remove(job);
 								i--;
 							}
-						}
-					} // end of the if, if job queue is empty
-				}
+						
+					} // end of the job is null
+				}// end of the out for loop
 				try {
 					Thread.sleep(1000);
 				} catch (Exception e) {
 				}
 			}
-		} // end of else, if no job, thread block itself to yield CPU
-	} // end of while
-} // end of run
+		} // end of while
+	} // end of  run
+	
+	
+} // end of class
 
 class ComputeThread extends Thread {
 	private Vector<Job> jobQ;
@@ -221,15 +216,8 @@ class ComputeThread extends Thread {
 							if ((op.getOPID() == 2) && (!op.isDone())) {
 
 								if (!doneOne) {
-									System.out
-											.println("JobID: " + job.getJobID()
-													+ " The operation type is: 2 so the compute thread will run.");
-									int num1 = job.getJobID();
-									int num2 = job.getOPNumber();
-								
+									System.out.println("The operation type is: 2 so the computing thread will run.");
 									op.print(op.getJobDescription());
-									//op.computation(num1, num2);
-
 									op.setIsDone(true);
 									doneOne = true;
 								} else {
@@ -238,25 +226,24 @@ class ComputeThread extends Thread {
 							} // end of operation 1
 
 							else if (op.getOPID() == 0) {
-								System.out
-										.println("The operation type is: 0 and the compute thread is to be terminated.");
+								System.out.println("The operation type is: 0 and the compute thread is to be terminated.");
 								this.stop = true;
 							} else {
 								if (!op.isDone())
 									removable = false;
 							}
+						}// end of inner for loop for each operation in a single job
 							if (removable) {
 								jobQ.remove(job);
 								i--;
 							}
-						}
-					}
-				} // end of the if, if job queue is empty
+						
+					} // end of the if job is null
+				} // end of the outter for loop
 				try {
 					Thread.sleep(1000);
-				} catch (Exception e) {
-				}
-			}
-		} // end of else, if no job, thread block itself to yield CPU
-	} // end of while
-} // end of run
+				} catch (Exception e) {}
+			} // end of the inner while loop job queue is empty
+		} // end of while stop
+	} // end of run
+} // end of class

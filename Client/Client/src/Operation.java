@@ -19,9 +19,9 @@ public class Operation implements Serializable {
 
 	public void setJobDescription(int r) {
 		if (r == 2) { // maybe computing
-			this.JobDescription = "Please compute the following: A = this JobID: " + this.JobID
-					+ " * this OPID: " + this.OPID;
-														
+			this.JobDescription = "Compute the following: A = JobID x OperationID x Operation Index\n" + 
+									"A = " + this.JobID + " x " + this.OPID + " x " + this.index +
+										"\nA = " + this.JobID * this.OPID * this.index;			
 		} else if (r == 1) { // printing job
 			this.JobDescription = "JobID: " + this.JobID
 					+ "; OperationID: " + this.OPID + "; Operation Index: "
@@ -65,13 +65,5 @@ public class Operation implements Serializable {
 	public void print(String msg) {
 		String threadName = Thread.currentThread().getName();
 		System.out.println(threadName + ": " + msg);
-	}
-	
-	public void computation(int num1, int num2){
-		int A;
-		
-		A = num1 * num2;
-		
-		System.out.println(num1 + " x " + num2 + " = " + A);
 	}
 }

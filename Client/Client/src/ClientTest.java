@@ -1,6 +1,7 @@
 public class ClientTest {
 
 	public void testThreadedClient() {
+		//String host = "69.51.160.232";
 		String host = "localhost";
 		int port = 8088;
 
@@ -27,10 +28,10 @@ public class ClientTest {
 		} catch (Exception e) {
 		}
 
-			ThreadedPrintClientAdvNet pc1 = new ThreadedPrintClientAdvNet(-2, host,
+			/* ThreadedPrintClientAdvNet pc1 = new ThreadedPrintClientAdvNet(-2, host,
 				port);
 			Thread t2 = new Thread(pc1);
-			t2.start();
+			t2.start(); */
 	} 
 
 	public static void main(String args[]) {
